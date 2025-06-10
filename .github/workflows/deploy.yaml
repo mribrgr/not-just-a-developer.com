@@ -61,10 +61,12 @@ jobs:
         run: |
           sed -i "s|tag: .*|tag: \"${{ steps.version.outputs.version }}\"|" deploy/chart/values.yaml
 
-      - name: Commit updated values.yaml
+      - name: Commit and tag updated values.yaml
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add deploy/chart/values.yaml
           git commit -m "chore(chart): update image tag to ${{ steps.version.outputs.version }}"
+          git tag ${{ steps.version.outputs.version }}
           git push
+          git push origin ${{ steps.version.outputs.version }}
