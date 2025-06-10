@@ -1,6 +1,6 @@
 # The URL the site will be built for
-# base_url = "https://not-just-a-developer.com"
-base_url = "http://localhost"
+base_url = "http://not-just-a-developer.com"
+# base_url = "http://localhost"
 
 compile_sass = false
 

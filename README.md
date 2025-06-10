@@ -1,4 +1,4 @@
-# not-just-a-developer.com
+# [not-just-a-developer.com](http://not-just-a-developer.com)
 
 This is just a blog from not just a developer.
 
