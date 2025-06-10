@@ -35,10 +35,10 @@ jobs:
         id: version
         uses: paulhatch/semantic-version@v5.4.0
         with:
-          tag_prefix: "" # v?
+          tag_prefix: "v"
           major_pattern: "BREAKING CHANGE"
           minor_pattern: "feat"
-          version_format: "${major}.${minor}.${patch}"
+          version_format: "v${major}.${minor}.${patch}"
 
       - name: Extract Docker metadata
         id: meta
