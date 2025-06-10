@@ -38,12 +38,23 @@ jobs:
           minor_pattern: "feat"
           version_format: "v${major}.${minor}.${patch}"
 
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5.7.0
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=${{ steps.version.outputs.version }}
+
       - name: Build and push Docker image
-        run: |
-          docker buildx build \
-            --push \
-            --tag ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }} \
-            .
+        id: build-and-push
+        uses: docker/build-push-action@v6.18.0 # v5.0.0
+        with:
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Update Helm values.yaml
         run: |
