@@ -1,0 +1,5 @@
+apiVersion: v2
+name: notjustadevelopercom
+description: Helm chart for not-just-a-developer.com
+version: 0.1.0
+appVersion: "1.0"

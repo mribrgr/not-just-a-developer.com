@@ -1,0 +1,13 @@
+image:
+  repository: ghcr.io/mribrgr/not-just-a-developer.com
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: www.not-just-a-developer.com
+  
