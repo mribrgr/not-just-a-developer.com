@@ -12,6 +12,7 @@ jobs:
       contents: write
       packages: write
     strategy:
+      fail-fast: false
       matrix:
         platform:
           - linux/amd64
