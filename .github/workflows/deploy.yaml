@@ -30,12 +30,6 @@ jobs:
   build-and-publish-docker:
     needs: version
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/arm64
-          - linux/amd64
     permissions:
       contents: read
       packages: write
@@ -76,7 +70,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: true
-          platforms: ${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64
 
   update-helm-chart:
     runs-on: ubuntu-latest
