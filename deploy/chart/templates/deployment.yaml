@@ -45,7 +45,7 @@ spec:
           image: ghostfolio/ghostfolio:latest
           envFrom:
             - secretRef:
-              name: ghostfoliosecret
+                name: ghostfoliosecret
           ports:
             - containerPort: 3333
           livenessProbe:
