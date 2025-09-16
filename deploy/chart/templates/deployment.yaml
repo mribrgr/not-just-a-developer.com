@@ -47,52 +47,52 @@ spec:
             - name: COMPOSE_PROJECT_NAME
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: COMPOSE_PROJECT_NAME
             - name: REDIS_HOST
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: REDIS_HOST
             - name: REDIS_PORT
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: REDIS_PORT
             - name: REDIS_PASSWORD
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: REDIS_PASSWORD
             - name: POSTGRES_DB
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: POSTGRES_PASSWORD
             - name: ACCESS_TOKEN_SALT
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: ACCESS_TOKEN_SALT
             - name: DATABASE_URL
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: DATABASE_URL
             - name: JWT_SECRET_KEY
               valueFrom:  
                 secretKeyRef:
-                  name: ghostfolio-secret
+                  name: ghostfoliosecret
                   key: JWT_SECRET_KEY
           ports:
             - containerPort: 3333

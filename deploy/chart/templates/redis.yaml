@@ -20,7 +20,7 @@ spec:
             - "$(REDIS_PASSWORD)"
           envFrom:
             - secretRef:
-                name: ghostfolio-secret
+                name: ghostfoliosecret
           ports:
             - containerPort: 6379
           livenessProbe:

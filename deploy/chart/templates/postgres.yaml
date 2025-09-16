@@ -17,7 +17,7 @@ spec:
           image: docker.io/library/postgres:15-alpine
           envFrom:
             - secretRef:
-                name: ghostfolio-secret
+                name: ghostfoliosecret
           ports:
             - containerPort: 5432
           livenessProbe:
