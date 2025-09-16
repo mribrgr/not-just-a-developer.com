@@ -43,79 +43,26 @@ spec:
       containers:
         - name: ghostfolio
           image: ghostfolio/ghostfolio:latest
-          env:
-            - name: COMPOSE_PROJECT_NAME
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: COMPOSE_PROJECT_NAME
-            - name: REDIS_HOST
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: REDIS_HOST
-            - name: REDIS_PORT
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: REDIS_PORT
-            - name: REDIS_PASSWORD
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: REDIS_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: POSTGRES_DB
-            - name: POSTGRES_USER
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: POSTGRES_PASSWORD
-            - name: ACCESS_TOKEN_SALT
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: ACCESS_TOKEN_SALT
-            - name: DATABASE_URL
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: DATABASE_URL
-            - name: JWT_SECRET_KEY
-              valueFrom:  
-                secretKeyRef:
-                  name: ghostfoliosecret
-                  key: JWT_SECRET_KEY
+          envFrom:
+            - secretRef:
+              name: ghostfoliosecret
           ports:
             - containerPort: 3333
           livenessProbe:
             httpGet:
               path: /api/v1/health
               port: 3333
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /api/v1/health
               port: 3333
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 5
           volumeMounts:
             - name: ghostfolio-storage
               mountPath: /var/lib/ghostfolio
-      resources:
-        requests:
-          ephemeral-storage: "256Mi"
-        limits:
-          ephemeral-storage: "512Mi"
       volumes:
         - name: ghostfolio-storage
           persistentVolumeClaim:

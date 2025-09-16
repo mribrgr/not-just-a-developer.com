@@ -49,8 +49,3 @@ spec:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-  resources:
-    requests:
-      ephemeral-storage: "256Mi"
-    limits:
-      ephemeral-storage: "512Mi"
