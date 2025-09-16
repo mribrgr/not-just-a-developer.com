@@ -108,3 +108,15 @@ spec:
               port: 3333
             initialDelaySeconds: 10
             periodSeconds: 5
+          volumeMounts:
+            - name: ghostfolio-storage
+              mountPath: /var/lib/ghostfolio
+      resources:
+        requests:
+          ephemeral-storage: "256Mi"
+        limits:
+          ephemeral-storage: "512Mi"
+      volumes:
+        - name: ghostfolio-storage
+          persistentVolumeClaim:
+            claimName: ghostfolio-pvc
