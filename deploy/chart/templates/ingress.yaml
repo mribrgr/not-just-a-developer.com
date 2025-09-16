@@ -16,3 +16,13 @@ spec:
                 name: {{ .Chart.Name }}
                 port:
                   number: 80
+    - host: ghostfolio.not-just-a-developer.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ghostfolio
+                port:
+                  number: 3333
