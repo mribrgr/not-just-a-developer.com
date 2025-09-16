@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mribrgr/not-just-a-developer.com
-  tag: "v0.2.3"
+  tag: "v0.2.4"
   pullPolicy: IfNotPresent
 
 service:
