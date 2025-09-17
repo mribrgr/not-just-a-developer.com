@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: {{ .Chart.Name }}
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
+  tls:
+    - hosts:
+      - not-just-a-developer.com
+      secretName: not-just-a-developer-com-tls
   rules:
     # - host: not-just-a-developer.com
     #   http:
