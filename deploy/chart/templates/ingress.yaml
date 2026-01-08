@@ -9,8 +9,8 @@ metadata:
 spec:
   tls:
     - hosts:
-      - not-just-a-developer.com
-      secretName: not-just-a-developer-com-tls
+      - ghostfolio.not-just-a-developer.com
+      secretName: ghostfolio-not-just-a-developer-com-tls
   rules:
     # - host: not-just-a-developer.com
     #   http:
@@ -22,7 +22,7 @@ spec:
     #             name: {{ .Chart.Name }}
     #             port:
     #               number: 80
-    - host: not-just-a-developer.com
+    - host: ghostfolio.not-just-a-developer.com
       http:
         paths:
           - path: /
