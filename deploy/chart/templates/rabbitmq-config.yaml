@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: rabbitmq-config
-data:
-  enabled_plugins: |
-    [rabbitmq_management,rabbitmq_mqtt,rabbitmq_web_mqtt].

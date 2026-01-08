@@ -11,9 +11,6 @@ spec:
     - hosts:
       - ghostfolio.not-just-a-developer.com
       secretName: ghostfolio-not-just-a-developer-com-tls
-    - hosts:
-      - owntracks.not-just-a-developer.com
-      secretName: owntracks-not-just-a-developer-com-tls
   rules:
     # - host: not-just-a-developer.com
     #   http:
@@ -35,20 +32,3 @@ spec:
                 name: ghostfolio
                 port:
                   number: 3333
-    - host: owntracks.not-just-a-developer.com
-      http:
-        paths:
-          - path: /mqtt
-            pathType: Prefix
-            backend:
-              service:
-                name: rabbitmq
-                port:
-                  number: 15675
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: owntracks-recorder
-                port:
-                  number: 8083

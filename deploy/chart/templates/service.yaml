@@ -21,15 +21,3 @@ spec:
     - protocol: TCP
       port: 3333
       targetPort: 3333
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: owntracks-recorder
-spec:
-  selector:
-    app: owntracks-recorder
-  ports:
-    - protocol: TCP
-      port: 8083
-      targetPort: 8083
