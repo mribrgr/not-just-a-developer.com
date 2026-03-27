@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -7,28 +8,29 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
+{{- if .Values.ingress.tls }}
   tls:
+  {{- range .Values.ingress.tls }}
     - hosts:
-      - ghostfolio.not-just-a-developer.com
-      secretName: ghostfolio-not-just-a-developer-com-tls
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
   rules:
-    # - host: not-just-a-developer.com
-    #   http:
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    #         backend:
-    #           service:
-    #             name: {{ .Chart.Name }}
-    #             port:
-    #               number: 80
-    - host: ghostfolio.not-just-a-developer.com
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+        {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
             backend:
               service:
-                name: ghostfolio
+                name: {{ if eq .backend.serviceName "not-just-a-developer-com" }}{{ $.Chart.Name }}{{ else }}{{ .backend.serviceName }}{{ end }}
                 port:
-                  number: 3333
+                  number: {{ .backend.servicePort }}
+        {{- end }}
+  {{- end }}
+{{- end -}}

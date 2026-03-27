@@ -9,5 +9,26 @@ service:
 
 ingress:
   enabled: true
-  host: www.not-just-a-developer.com
+  hosts:
+    - host: not-just-a-developer.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: not-just-a-developer-com
+            servicePort: 80
+    - host: ghostfolio.not-just-a-developer.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: ghostfolio
+            servicePort: 3333
+  tls:
+    - secretName: not-just-a-developer-com-tls
+      hosts:
+        - not-just-a-developer.com
+    - secretName: ghostfolio-not-just-a-developer-com-tls
+      hosts:
+        - ghostfolio.not-just-a-developer.com
   
