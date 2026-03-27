@@ -31,6 +31,13 @@ ingress:
           backend:
             serviceName: ghostfolio
             servicePort: 3333
+    - host: n8n.not-just-a-developer.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: n8n
+            servicePort: 5678
   tls:
     - secretName: not-just-a-developer-com-tls
       hosts:
@@ -41,4 +48,7 @@ ingress:
     - secretName: ghostfolio-not-just-a-developer-com-tls
       hosts:
         - ghostfolio.not-just-a-developer.com
+    - secretName: n8n-not-just-a-developer-com-tls
+      hosts:
+        - n8n.not-just-a-developer.com
 
