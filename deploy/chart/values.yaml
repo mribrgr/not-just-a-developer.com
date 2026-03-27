@@ -17,6 +17,13 @@ ingress:
           backend:
             serviceName: not-just-a-developer-com
             servicePort: 80
+    - host: grocy.not-just-a-developer.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: grocy
+            servicePort: 80
     - host: ghostfolio.not-just-a-developer.com
       paths:
         - path: /
@@ -28,7 +35,10 @@ ingress:
     - secretName: not-just-a-developer-com-tls
       hosts:
         - not-just-a-developer.com
+    - secretName: grocy-not-just-a-developer-com-tls
+      hosts:
+        - grocy.not-just-a-developer.com
     - secretName: ghostfolio-not-just-a-developer-com-tls
       hosts:
         - ghostfolio.not-just-a-developer.com
-  
+
