@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: signal-api-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signal-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: signal-api
+  template:
+    metadata:
+      labels:
+        app: signal-api
+    spec:
+      containers:
+      - name: signal-api
+        image: bbernhard/signal-cli-rest-api:latest
+        env:
+        - name: MODE
+          value: "json-rpc" # Empfohlen für n8n
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+        volumeMounts:
+        - name: signal-storage
+          mountPath: /home/signalapi/.local/share/signal-cli
+      volumes:
+      - name: signal-storage
+        persistentVolumeClaim:
+          claimName: signal-api-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: signal-api
+spec:
+  selector:
+    app: signal-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
