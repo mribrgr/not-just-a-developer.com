@@ -28,7 +28,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ if eq .backend.serviceName "not-just-a-developer-com" }}{{ $.Chart.Name }}{{ else }}{{ .backend.serviceName }}{{ end }}
+                name: {{ if eq .backend.serviceName "mauritiusberger-de" }}{{ $.Chart.Name }}{{ else }}{{ .backend.serviceName }}{{ end }}
                 port:
                   number: {{ .backend.servicePort }}
         {{- end }}

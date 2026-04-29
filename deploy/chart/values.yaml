@@ -10,28 +10,28 @@ service:
 ingress:
   enabled: true
   hosts:
-    - host: not-just-a-developer.com
+    - host: mauritiusberger.de
       paths:
         - path: /
           pathType: Prefix
           backend:
-            serviceName: not-just-a-developer-com
+            serviceName: mauritiusberger-de
             servicePort: 80
-    - host: grocy.not-just-a-developer.com
+    - host: grocy.mauritiusberger.de
       paths:
         - path: /
           pathType: Prefix
           backend:
             serviceName: grocy
             servicePort: 80
-    - host: ghostfolio.not-just-a-developer.com
+    - host: ghostfolio.mauritiusberger.de
       paths:
         - path: /
           pathType: Prefix
           backend:
             serviceName: ghostfolio
             servicePort: 3333
-    - host: n8n.not-just-a-developer.com
+    - host: n8n.mauritiusberger.de
       paths:
         - path: /
           pathType: Prefix
@@ -39,16 +39,16 @@ ingress:
             serviceName: n8n
             servicePort: 5678
   tls:
-    - secretName: not-just-a-developer-com-tls
+    - secretName: mauritiusberger-de-tls
       hosts:
-        - not-just-a-developer.com
-    - secretName: grocy-not-just-a-developer-com-tls
+        - mauritiusberger.de
+    - secretName: grocy-mauritiusberger-de-tls
       hosts:
-        - grocy.not-just-a-developer.com
-    - secretName: ghostfolio-not-just-a-developer-com-tls
+        - grocy.mauritiusberger.de
+    - secretName: ghostfolio-mauritiusberger-de-tls
       hosts:
-        - ghostfolio.not-just-a-developer.com
-    - secretName: n8n-not-just-a-developer-com-tls
+        - ghostfolio.mauritiusberger.de
+    - secretName: n8n-mauritiusberger-de-tls
       hosts:
-        - n8n.not-just-a-developer.com
+        - n8n.mauritiusberger.de
 

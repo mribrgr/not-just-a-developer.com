@@ -17,13 +17,13 @@ spec:
           image: docker.n8n.io/n8nio/n8n:latest
           env:
             - name: N8N_HOST
-              value: "n8n.not-just-a-developer.com"
+              value: "n8n.mauritiusberger.de"
             - name: N8N_PORT
               value: "5678"
             - name: N8N_PROTOCOL
               value: "https"
             - name: WEBHOOK_URL
-              value: "https://n8n.not-just-a-developer.com/"
+              value: "https://n8n.mauritiusberger.de/"
             - name: GENERIC_TIMEZONE # common for this project
               value: "Europe/Berlin"
           ports:
