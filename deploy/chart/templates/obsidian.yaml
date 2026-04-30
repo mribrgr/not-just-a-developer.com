@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: obsidian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: obsidian
+  template:
+    metadata:
+      labels:
+        app: obsidian
+    spec:
+      containers:
+        - name: obsidian
+          image: lscr.io/linuxserver/obsidian:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: obsidian-config
+              mountPath: /config
+      volumes:
+        - name: obsidian-config
+          persistentVolumeClaim:
+            claimName: obsidian-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: obsidian
+spec:
+  selector:
+    app: obsidian
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

@@ -38,6 +38,13 @@ ingress:
           backend:
             serviceName: n8n
             servicePort: 5678
+    - host: obsidian.mauritiusberger.de
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: obsidian
+            servicePort: 3000
   tls:
     - secretName: mauritiusberger-de-tls
       hosts:
@@ -45,6 +52,9 @@ ingress:
     - secretName: grocy-mauritiusberger-de-tls
       hosts:
         - grocy.mauritiusberger.de
+    - secretName: obsidian-mauritiusberger-de-tls
+      hosts:
+        - obsidian.mauritiusberger.de
     - secretName: ghostfolio-mauritiusberger-de-tls
       hosts:
         - ghostfolio.mauritiusberger.de
