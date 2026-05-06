@@ -3,3 +3,7 @@ name: notjustadevelopercom
 description: Helm chart for not-just-a-developer.com
 version: 0.1.0
 appVersion: "1.0"
+dependencies:
+  - name: velero
+    version: 12.0.1
+    repository: https://vmware-tanzu.github.io/helm-charts

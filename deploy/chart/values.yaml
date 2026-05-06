@@ -9,6 +9,43 @@ service:
 
 ingress:
   enabled: true
+
+velero:
+  initContainers:
+    - name: velero-plugin-for-microsoft-azure
+      image: velero/velero-plugin-for-microsoft-azure:v1.10.0
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /target
+          name: plugins
+  
+  configuration:
+    provider: azure
+    backupStorageLocation:
+    - name: default
+      provider: azure
+      bucket: netcup
+      config:
+        storageAccount: azureresticbackup
+        storageAccountKeyEnvVar: AZURE_ACCOUNT_SAS
+
+  credentials:
+    useSecret: true
+    existingSecret: velero-credentials
+
+  deployNodeAgent: true
+
+  nodeAgent:
+    podVolumePath: /var/lib/kubelet/pods
+
+  schedules:
+    daily-backup:
+      disabled: false
+      schedule: "0 2 * * *"
+      template:
+        ttl: "720h"
+        defaultVolumesToFsBackup: true
+
   hosts:
     - host: mauritiusberger.de
       paths:
