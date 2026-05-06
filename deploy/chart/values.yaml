@@ -20,7 +20,6 @@ velero:
           name: plugins
   
   configuration:
-    provider: azure
     backupStorageLocation:
     - name: default
       provider: azure
