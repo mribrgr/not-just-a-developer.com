@@ -38,6 +38,13 @@ ingress:
           backend:
             serviceName: n8n
             servicePort: 5678
+    - host: paperless.mauritiusberger.de
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: paperless
+            servicePort: 8000
   tls:
     - secretName: mauritiusberger-de-tls
       hosts:
@@ -51,6 +58,9 @@ ingress:
     - secretName: n8n-mauritiusberger-de-tls
       hosts:
         - n8n.mauritiusberger.de
+    - secretName: paperless-mauritiusberger-de-tls
+      hosts:
+        - paperless.mauritiusberger.de
 
 velero:
   initContainers:
