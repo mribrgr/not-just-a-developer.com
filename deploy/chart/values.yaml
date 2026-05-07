@@ -67,8 +67,9 @@ velero:
       provider: azure
       bucket: netcup
       config:
+        resourceGroup: ForMauritius
         storageAccount: azureresticbackup
-        storageAccountSasTokenEnvVar: AZURE_ACCOUNT_SAS
+        storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
     volumeSnapshotLocation:
     - name: default
       provider: azure
