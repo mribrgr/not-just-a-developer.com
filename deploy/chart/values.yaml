@@ -43,7 +43,7 @@ ingress:
         - path: /
           pathType: Prefix
           backend:
-            serviceName: paperless
+            serviceName: paperless-web
             servicePort: 8000
   tls:
     - secretName: mauritiusberger-de-tls
