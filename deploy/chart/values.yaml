@@ -68,7 +68,7 @@ velero:
       bucket: netcup
       config:
         storageAccount: azureresticbackup
-        storageAccountKeyEnvVar: AZURE_ACCOUNT_SAS
+        storageAccountSasTokenEnvVar: AZURE_ACCOUNT_SAS
     volumeSnapshotLocation:
     - name: default
       provider: azure
