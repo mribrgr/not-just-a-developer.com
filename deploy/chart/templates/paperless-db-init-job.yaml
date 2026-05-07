@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-paperless-db
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: db-init
+        image: docker.io/library/postgres:15-alpine
+        envFrom:
+          - secretRef:
+              name: ghostfoliosecret
+        command:
+          - /bin/sh
+          - -c
+          - |
+            # Use the existing Postgres user and password from ghostfoliosecret
+            export PGPASSWORD=$POSTGRES_PASSWORD
+            
+            # Check if paperless-db exists; if not, create it
+            psql -h postgres -U $POSTGRES_USER -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'paperless-db'" | grep -q 1 || psql -h postgres -U $POSTGRES_USER -d postgres -c "CREATE DATABASE \"paperless-db\" OWNER $POSTGRES_USER"
+            
+            echo "Database initialization complete."
+      restartPolicy: OnFailure
