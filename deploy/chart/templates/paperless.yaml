@@ -35,6 +35,10 @@ spec:
               value: "true"
             - name: PAPERLESS_REMOTE_USER_HEADER_NAME
               value: "HTTP_REMOTE_USER"
+            - name: PAPERLESS_REDIRECT_LOGIN_TO_SSO
+              value: "true"
+            - name: "PAPERLESS_DISABLE_REGULAR_LOGIN"
+              value: "false"  # in the future to true
           volumeMounts:
             - name: data
               mountPath: /usr/src/paperless/data
