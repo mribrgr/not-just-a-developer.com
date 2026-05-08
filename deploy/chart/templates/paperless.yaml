@@ -39,6 +39,8 @@ spec:
               value: "true"
             - name: "PAPERLESS_DISABLE_REGULAR_LOGIN"
               value: "false"  # in the future to true
+            - name: "PAPERLESS_FILENAME_FORMAT"
+              value: "{owner_username}/{created_year}/{created} {title} ({correspondent})"
           volumeMounts:
             - name: data
               mountPath: /usr/src/paperless/data
