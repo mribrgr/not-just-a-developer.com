@@ -41,7 +41,7 @@ spec:
             memory: 1Gi
         volumeMounts:
         - name: signal-storage
-          mountPath: /home/signalapi/.local/share/signal-cli
+          mountPath: /home/.local/share/signal-cli
       volumes:
       - name: signal-storage
         persistentVolumeClaim:
