@@ -29,7 +29,7 @@ spec:
         image: bbernhard/signal-cli-rest-api:latest
         env:
         - name: MODE
-          value: "json-rpc" # Empfohlen für n8n
+          value: "native"
         ports:
         - containerPort: 8080
         resources:
@@ -59,3 +59,4 @@ spec:
       port: 8080
       targetPort: 8080
   type: ClusterIP
+# Registrierte Signal-Bot-Nummer (Festnetz, nur Voice-Verifizierung): +4935125988971
