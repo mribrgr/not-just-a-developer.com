@@ -1,0 +1,48 @@
+{
+  "name": "signal-send",
+  "id": "signalSend000001",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "a1111111-1111-1111-1111-111111111111",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://signal-api:8080/v2/send",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"message\": {{ JSON.stringify($json.message) }}, \"number\": \"+4935125988971\", \"recipients\": [\"{{ $json.recipient || '+491605048727' }}\"] }",
+        "options": {}
+      },
+      "id": "a2222222-2222-2222-2222-222222222222",
+      "name": "Send Signal",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Send Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
