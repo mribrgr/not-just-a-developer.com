@@ -11,7 +11,27 @@ spec:
     metadata:
       labels:
         app: n8n
+      annotations:
+        checksum/workflows: {{ (.Files.Glob "files/n8n-workflows/*.json").AsConfig | sha256sum }}
     spec:
+      initContainers:
+        - name: import-workflows
+          image: docker.n8n.io/n8nio/n8n:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "[gitops] Importiere n8n-Workflows aus Git...";
+              n8n import:workflow --separate --input=/workflows-src || echo "[gitops] import:workflow fehlgeschlagen (fahre fort)";
+              # Aktivierung: n8n 2.x nutzt 'publish:workflow' (aeltere Versionen 'update:workflow --active').
+              n8n publish:workflow --id=signalSend000001 || n8n update:workflow --id=signalSend000001 --active=true || echo "[gitops] Publish signal-send fehlgeschlagen (fahre fort)";
+              n8n publish:workflow --id=signalRecv000001 || n8n update:workflow --id=signalRecv000001 --active=true || echo "[gitops] Publish signal-receive fehlgeschlagen (fahre fort)";
+              echo "[gitops] Workflow-Import abgeschlossen.";
+          volumeMounts:
+            - name: n8n-config
+              mountPath: /home/node/.n8n
+            - name: n8n-workflows-src
+              mountPath: /workflows-src
+              readOnly: true
       containers:
         - name: n8n
           image: docker.n8n.io/n8nio/n8n:latest
@@ -42,6 +62,9 @@ spec:
         - name: n8n-config
           persistentVolumeClaim:
             claimName: n8n-pvc
+        - name: n8n-workflows-src
+          configMap:
+            name: n8n-workflows
 ---
 apiVersion: v1
 kind: Service
