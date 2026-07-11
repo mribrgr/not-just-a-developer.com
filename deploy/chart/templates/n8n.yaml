@@ -13,25 +13,43 @@ spec:
         app: n8n
       annotations:
         checksum/workflows: {{ (.Files.Glob "files/n8n-workflows/*.json").AsConfig | sha256sum }}
+        checksum/credentials: {{ (.Files.Glob "files/n8n-credentials/*.json").AsConfig | sha256sum }}
     spec:
       initContainers:
-        - name: import-workflows
+        - name: import-n8n-config
           image: docker.n8n.io/n8nio/n8n:latest
           command: ["/bin/sh", "-c"]
           args:
             - |
               echo "[gitops] Importiere n8n-Workflows aus Git...";
               n8n import:workflow --separate --input=/workflows-src || echo "[gitops] import:workflow fehlgeschlagen (fahre fort)";
-              # Aktivierung: n8n 2.x nutzt 'publish:workflow' (aeltere Versionen 'update:workflow --active').
               n8n publish:workflow --id=signalSend000001 || n8n update:workflow --id=signalSend000001 --active=true || echo "[gitops] Publish signal-send fehlgeschlagen (fahre fort)";
               n8n publish:workflow --id=signalRecv000001 || n8n update:workflow --id=signalRecv000001 --active=true || echo "[gitops] Publish signal-receive fehlgeschlagen (fahre fort)";
-              echo "[gitops] Workflow-Import abgeschlossen.";
+              echo "[gitops] Importiere n8n-Credentials aus Git...";
+              for f in /credentials-src/*.json; do
+                [ -e "$f" ] || continue;
+                out="/credentials-out/$(basename "$f")";
+                node -e 'const fs=require("fs");const p=process.argv[1],o=process.argv[2];const t=JSON.parse(fs.readFileSync(p,"utf8"));const arr=Array.isArray(t)?t:[t];for(const c of arr){if(c&&c.data)for(const k of Object.keys(c.data))if(c.data[k]==="__LITELLM_API_KEY__")c.data[k]=process.env.LITELLM_API_KEY||"";}fs.writeFileSync(o,JSON.stringify(t));' "$f" "$out" && n8n import:credentials --input="$out" --projectId=KhjgmoqnLtnphYaS || echo "[gitops] Credential-Import $f fehlgeschlagen (fahre fort)";
+              done;
+              echo "[gitops] Import abgeschlossen.";
+          env:
+            - name: LITELLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: n8nllmsecret
+                  key: LITELLM_API_KEY
+                  optional: true
           volumeMounts:
             - name: n8n-config
               mountPath: /home/node/.n8n
             - name: n8n-workflows-src
               mountPath: /workflows-src
               readOnly: true
+            - name: n8n-credentials-src
+              mountPath: /credentials-src
+              readOnly: true
+            - name: n8n-credentials-out
+              mountPath: /credentials-out
       containers:
         - name: n8n
           image: docker.n8n.io/n8nio/n8n:latest
@@ -65,6 +83,11 @@ spec:
         - name: n8n-workflows-src
           configMap:
             name: n8n-workflows
+        - name: n8n-credentials-src
+          configMap:
+            name: n8n-credentials
+        - name: n8n-credentials-out
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

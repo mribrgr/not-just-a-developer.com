@@ -1,0 +1,11 @@
+[
+  {
+    "id": "litellmOpenAi01",
+    "name": "LiteLLM (general)",
+    "type": "openAiApi",
+    "data": {
+      "url": "https://llm.collan.com/v1",
+      "apiKey": "__LITELLM_API_KEY__"
+    }
+  }
+]
