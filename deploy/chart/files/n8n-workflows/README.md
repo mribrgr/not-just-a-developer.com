@@ -27,12 +27,16 @@ Diese `*.json`-Dateien sind die **Single Source of Truth** für ausgewählte n8n
   „Execute-Workflow"-Trigger. Aus anderen Workflows via **Execute Sub-workflow**-Node
   aufrufen und `message` (optional `recipient`) übergeben → sendet via
   `POST http://signal-api:8080/v2/send`. Default-Empfänger: `+491605048727`.
-- **signal-llm-bot** (`signalRecv000001`, aktiv): pollt alle 30 s
-  `GET http://signal-api:8080/v1/receive/+4935125988971`, filtert Nachrichten von
-  `+491605048727`, schickt den Text 1:1 an das LiteLLM-Modell `general`
+- **signal-llm-bot** (`signalRecv000001`, aktiv): wird in Echtzeit vom
+  **Community-Trigger-Node** `n8n-nodes-signal-cli-rest-api.signalTrigger`
+  (WebSocket auf `ws://signal-api:8080/v1/receive/…`, Credential `signalApiCred01`)
+  ausgelöst, filtert eingehende Nachrichten von `+491605048727`, schickt den Text
+  1:1 an das LiteLLM-Modell `general`
   (`POST https://llm.collana.com/v1/chat/completions`, Auth via Credential
-  `litellmOpenAi01`) und sendet die Antwort per Signal zurück. Einziger Poller auf
-  `/v1/receive` (gleiche ID wie das frühere signal-receive → Upsert, kein Duplikat).
+  `litellmOpenAi01`) und sendet die Antwort per Signal zurück.
+  Voraussetzungen: signal-api in `MODE=json-rpc` und der Community-Node ist
+  deklarativ per `N8N_COMMUNITY_PACKAGES*`-Env am n8n-Deployment installiert.
+  Genau ein WebSocket-Consumer auf `/v1/receive` (kein Polling mehr).
 
 ## Nummern
 

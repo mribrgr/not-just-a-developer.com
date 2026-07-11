@@ -1,0 +1,12 @@
+[
+  {
+    "id": "signalApiCred01",
+    "name": "Signal account",
+    "type": "signalApi",
+    "data": {
+      "apiUrl": "http://signal-api:8080",
+      "apiToken": "",
+      "phoneNumber": "+4935125988971"
+    }
+  }
+]

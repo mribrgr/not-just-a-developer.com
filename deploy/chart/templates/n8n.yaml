@@ -64,6 +64,12 @@ spec:
               value: "https://n8n.mauritiusberger.de/"
             - name: GENERIC_TIMEZONE # common for this project
               value: "Europe/Berlin"
+            - name: N8N_COMMUNITY_PACKAGES_ENABLED
+              value: "true"
+            - name: N8N_COMMUNITY_PACKAGES_MANAGED_BY_ENV
+              value: "true"
+            - name: N8N_COMMUNITY_PACKAGES
+              value: '[{"name":"n8n-nodes-signal-cli-rest-api","version":"0.10.0"}]'
           ports:
             - containerPort: 5678
           resources:

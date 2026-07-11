@@ -8,52 +8,34 @@
   "nodes": [
     {
       "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "seconds",
-              "secondsInterval": 30
-            }
-          ]
-        }
+        "reconnectDelay": 5,
+        "ignoreMessages": false,
+        "ignoreAttachments": false,
+        "ignoreReactions": false,
+        "ignorePollVotes": false
       },
       "id": "b1111111-1111-1111-1111-111111111111",
-      "name": "Alle 30s pollen",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        0,
-        0
-      ]
-    },
-    {
-      "parameters": {
-        "method": "GET",
-        "url": "http://signal-api:8080/v1/receive/+4935125988971",
-        "options": {}
-      },
-      "id": "b2222222-2222-2222-2222-222222222222",
-      "name": "Signal empfangen",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        220,
-        0
-      ]
+      "name": "Signal Trigger",
+      "type": "n8n-nodes-signal-cli-rest-api.signalTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "credentials": {
+        "signalApi": {
+          "id": "signalApiCred01",
+          "name": "Signal account"
+        }
+      }
     },
     {
       "parameters": {
         "language": "javaScript",
-        "jsCode": "const items=$input.all();let envs=[];for(const it of items){let j=it.json;if(j&&typeof j.data==='string'){try{j=JSON.parse(j.data);}catch(_){}}if(typeof j==='string'){try{j=JSON.parse(j);}catch(_){}}if(Array.isArray(j)){envs.push(...j);}else if(j&&Array.isArray(j.data)){envs.push(...j.data);}else if(j){envs.push(j);}}return envs.filter(e=>e&&e.envelope&&e.envelope.dataMessage&&e.envelope.dataMessage.message).filter(e=>(e.envelope.sourceNumber||e.envelope.source)==='+491605048727').map(e=>({json:{from:e.envelope.sourceNumber||e.envelope.source,message:e.envelope.dataMessage.message}}));"
+        "jsCode": "const out=[];for(const it of $input.all()){const j=it.json;const src=(j.envelope&&(j.envelope.sourceNumber||j.envelope.source))||j.sourceNumber||j.source||'';const text=j.messageText||(j.envelope&&j.envelope.dataMessage&&j.envelope.dataMessage.message)||'';if(j.messageType!=='outgoing'&&text&&src==='+491605048727'){out.push({json:{from:src,message:text}});}}return out;"
       },
-      "id": "b3333333-3333-3333-3333-333333333333",
+      "id": "b2222222-2222-2222-2222-222222222222",
       "name": "Nachrichten von mir filtern",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        440,
-        0
-      ]
+      "position": [220, 0]
     },
     {
       "parameters": {
@@ -66,14 +48,11 @@
         "jsonBody": "={ \"model\": \"general\", \"messages\": [ { \"role\": \"user\", \"content\": {{ JSON.stringify($json.message) }} } ] }",
         "options": {}
       },
-      "id": "b4444444-4444-4444-4444-444444444444",
+      "id": "b3333333-3333-3333-3333-333333333333",
       "name": "LiteLLM general",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        660,
-        0
-      ],
+      "position": [440, 0],
       "credentials": {
         "openAiApi": {
           "id": "litellmOpenAi01",
@@ -90,29 +69,15 @@
         "jsonBody": "={ \"message\": {{ JSON.stringify($json.choices[0].message.content) }}, \"number\": \"+4935125988971\", \"recipients\": [\"+491605048727\"] }",
         "options": {}
       },
-      "id": "b5555555-5555-5555-5555-555555555555",
+      "id": "b4444444-4444-4444-4444-444444444444",
       "name": "Antwort senden",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        880,
-        0
-      ]
+      "position": [660, 0]
     }
   ],
   "connections": {
-    "Alle 30s pollen": {
-      "main": [
-        [
-          {
-            "node": "Signal empfangen",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Signal empfangen": {
+    "Signal Trigger": {
       "main": [
         [
           {
