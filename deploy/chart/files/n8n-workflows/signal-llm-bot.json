@@ -44,7 +44,7 @@
     {
       "parameters": {
         "language": "javaScript",
-        "jsCode": "const items=$input.all();let envs=[];for(const it of items){const j=it.json;if(Array.isArray(j)){envs.push(...j);}else if(j&&Array.isArray(j.data)){envs.push(...j.data);}else if(j){envs.push(j);}}return envs.filter(e=>e&&e.envelope&&e.envelope.dataMessage&&e.envelope.dataMessage.message).filter(e=>(e.envelope.sourceNumber||e.envelope.source)==='+491605048727').map(e=>({json:{from:e.envelope.sourceNumber||e.envelope.source,message:e.envelope.dataMessage.message}}));"
+        "jsCode": "const items=$input.all();let envs=[];for(const it of items){let j=it.json;if(j&&typeof j.data==='string'){try{j=JSON.parse(j.data);}catch(_){}}if(typeof j==='string'){try{j=JSON.parse(j);}catch(_){}}if(Array.isArray(j)){envs.push(...j);}else if(j&&Array.isArray(j.data)){envs.push(...j.data);}else if(j){envs.push(j);}}return envs.filter(e=>e&&e.envelope&&e.envelope.dataMessage&&e.envelope.dataMessage.message).filter(e=>(e.envelope.sourceNumber||e.envelope.source)==='+491605048727').map(e=>({json:{from:e.envelope.sourceNumber||e.envelope.source,message:e.envelope.dataMessage.message}}));"
       },
       "id": "b3333333-3333-3333-3333-333333333333",
       "name": "Nachrichten von mir filtern",
