@@ -24,7 +24,7 @@ kind: Deployment
 metadata:
   name: ghostfolio
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: ghostfolio
